@@ -13,7 +13,7 @@
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     -webkit-tap-highlight-color: transparent;
 }
 
@@ -22,74 +22,298 @@ body {
     color: var(--text-light);
     display: flex;
     justify-content: center;
-    align-items: center;
     min-height: 100vh;
-    padding: 15px;
+    padding: 20px;
 }
 
 .app-container {
     width: 100%;
     max-width: 400px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    padding-bottom: 40px;
+}
+
+header {
+    text-align: center;
+    margin-top: 10px;
+}
+
+header h1 {
+    font-size: 2rem;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+}
+
+header h1 span {
+    color: var(--accent-neon);
+}
+
+header p {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    margin-top: 4px;
+}
+
+/* Badges */
+.badge-container {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.badge {
     background: var(--card-bg);
-    border-radius: 30px;
-    padding: 25px;
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    border: 1px solid rgba(255,255,255,0.05);
+}
+
+/* Exercise Window */
+.exercise-display {
+    background: var(--card-bg);
+    width: 100%;
+    border-radius: 24px;
+    padding: 24px;
+    text-align: center;
+    box-shadow: 0 10px 25px -5px rgba(0,0,0,0.3);
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.05);
+}
+
+#current-move {
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+#status-badge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.status-work { background: var(--accent-burn); color: white; }
+.status-rest { background: var(--accent-rest); color: white; }
+
+/* Timer Wheel Area */
+.timer-container {
+    position: relative;
+    width: 170px;
+    height: 170px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.timer-text-box {
+    position: absolute;
     text-align: center;
 }
 
-header h1 { font-size: 1.6rem; font-weight: 800; letter-spacing: -0.5px; margin-bottom: 4px; }
-header h1 span { color: var(--accent-burn); }
-header p { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 20px; }
-
-.badge-container { display: flex; justify-content: center; gap: 8px; margin-bottom: 15px; }
-.badge {
-    font-size: 0.7rem; font-weight: 700; padding: 4px 10px; border-radius: 20px;
-    background: rgba(255,255,255,0.05); color: var(--text-muted); border: 1px solid rgba(255,255,255,0.1);
-    transition: all 0.4s ease;
+#time-left {
+    font-size: 3.5rem;
+    font-weight: 800;
+    line-height: 1;
 }
-.badge.unlocked { background: rgba(56, 189, 248, 0.2); color: var(--accent-neon); border-color: var(--accent-neon); }
 
-.exercise-display {
-    background: rgba(15, 23, 42, 0.6); padding: 18px; border-radius: 20px;
-    margin-bottom: 20px; min-height: 85px; display: flex; flex-direction: column; justify-content: center; align-items: center;
+/* Dashboard Grid Counters */
+.stats-grid {
+    display: grid;
+    grid-template-columns: 1xl 1xl;
+    gap: 12px;
+    width: 100%;
 }
-#current-move { font-size: 1.3rem; font-weight: 700; color: var(--accent-neon); margin-bottom: 6px; }
-#status-badge { display: inline-block; padding: 4px 12px; border-radius: 12px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; }
-.status-work { background-color: var(--accent-burn); color: white; }
-.status-rest { background-color: var(--accent-rest); color: white; }
 
-.timer-container { position: relative; width: 170px; height: 170px; margin: 0 auto 20px auto; }
-canvas { position: absolute; top: 0; left: 0; transform: rotate(-90deg); }
-.timer-text-box { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; }
-#time-left { font-size: 3.2rem; font-weight: 800; line-height: 1; }
+.stat-box {
+    background: var(--card-bg);
+    padding: 16px;
+    border-radius: 16px;
+    text-align: center;
+    border: 1px solid rgba(255,255,255,0.05);
+}
 
-.stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
-.stat-box { background: rgba(15, 23, 42, 0.4); padding: 12px; border-radius: 15px; }
-.stat-label { font-size: 0.72rem; color: var(--text-muted); text-transform: uppercase; margin-bottom: 2px; }
-.stat-val { font-size: 1.15rem; font-weight: 700; }
+.stat-label {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 4px;
+}
+
+.stat-val {
+    font-size: 1.4rem;
+    font-weight: 700;
+}
+
+/* Action Trigger Buttons */
+.controls-btn, .nutrition-trigger-btn {
+    width: 100%;
+    padding: 18px;
+    border-radius: 16px;
+    font-size: 1rem;
+    font-weight: 700;
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s;
+}
 
 .controls-btn {
-    width: 100%; padding: 16px; border-radius: 50px; border: none; font-size: 1.1rem; font-weight: 700;
-    background: linear-gradient(135deg, #f43f5e, #b91c1c); color: white; box-shadow: 0 10px 20px -5px rgba(244, 63, 94, 0.4); margin-bottom: 15px;
-    cursor: pointer;
+    background: var(--accent-neon);
+    color: var(--bg-dark);
 }
-.controls-btn.running { background: #475569; box-shadow: none; }
+
+.controls-btn.running {
+    background: var(--accent-burn);
+    color: white;
+}
 
 .nutrition-trigger-btn {
-    width: 100%; padding: 14px; border-radius: 50px; border: 1px solid rgba(251, 191, 36, 0.4);
-    background: rgba(251, 191, 36, 0.1); color: var(--accent-gold); font-size: 0.95rem; font-weight: 700; cursor: pointer;
+    background: var(--card-bg);
+    color: var(--text-light);
+    border: 1px solid rgba(255,255,255,0.1);
 }
 
+/* Meal Plan Popup Drawer Modal */
 .modal-overlay {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(8px);
-    display: flex; justify-content: center; align-items: center;
-    opacity: 0; pointer-events: none; transition: opacity 0.3s ease; z-index: 100;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(15, 23, 42, 0.85);
+    backdrop-filter: blur(8px);
+    display: flex;
+    align-items: flex-end;
+    z-index: 1000;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
 }
-.modal-overlay.active { opacity: 1; pointer-events: auto; }
+
+.modal-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+}
 
 .modal-content {
-    width: 90%; max-width: 360px; background: var(--card-bg); border-radius: 25px;
-    padding: 22px; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.3); text-align: left;
-    border: 1px solid rgba(255,255,255,0.05);
+    background: var(--card-bg);
+    width: 100%;
+    border-radius: 32px 32px 0 0;
+    padding: 24px;
+    max-height: 85vh;
+    overflow-y: auto;
+    transform: translateY(100%);
+    transition: transform 0.3s ease;
+}
+
+.modal-overlay.active .modal-content {
+    transform: translateY(0);
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.close-modal {
+    background: rgba(255,255,255,0.1);
+    border: none;
+    color: white;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Days Horizontal Navigator */
+.calendar-row {
+    display: flex;
+    justify-content: space-between;
+    background: var(--bg-dark);
+    padding: 6px;
+    border-radius: 14px;
+    margin-bottom: 20px;
+}
+
+.day-tab {
+    flex: 1;
+    text-align: center;
+    padding: 10px 0;
+    font-size: 0.9rem;
+    font-weight: 700;
+    border-radius: 10px;
+    color: var(--text-muted);
+    cursor: pointer;
+}
+
+.day-tab.active {
+    background: var(--accent-neon);
+    color: var(--bg-dark);
+}
+
+/* Card Cards with Ticks */
+.meal-card {
+    background: var(--bg-dark);
+    padding: 16px;
+    border-radius: 16px;
+    margin-bottom: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid rgba(255,255,255,0.02);
+    transition: all 0.2s;
+}
+
+.meal-card h4 {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    color: var(--accent-neon);
+    margin-bottom: 2px;
+}
+
+.meal-card p {
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.check-circle {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 2px solid var(--text-muted);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: transparent;
+    font-weight: 900;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.meal-card.completed {
+    opacity: 0.6;
+    border-color: var(--accent-rest);
+}
+
+.meal-card.completed .check-circle {
+    background: var(--accent-rest);
+    border-color: var(--accent-rest);
+    color: white;
 }
