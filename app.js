@@ -64,10 +64,13 @@ const openNutritionBtn = document.getElementById("open-nutrition-btn");
 const closeNutritionBtn = document.getElementById("close-nutrition-btn");
 const mealsContainerElement = document.getElementById("meals-container");
 const weekdayTabsList = document.querySelectorAll(".day-tab");
+const canvasRing = document.getElementById("timer-ring");
+const ctx = canvasRing.getContext("2d");
 
 // --- INTERACTIVE ENGINE ---
 function buildInterface() {
     updateTimerText(timerDuration);
+    drawVisualRing(1);
     renderMeals("mon");
 }
 
@@ -75,10 +78,32 @@ function updateTimerText(secondsLeft) {
     timerDisplayBox.textContent = secondsLeft < 10 ? `0${secondsLeft}` : secondsLeft;
 }
 
+function drawVisualRing(percentage) {
+    ctx.clearRect(0, 0, 170, 170);
+    
+    // Background Ring Track
+    ctx.beginPath();
+    ctx.arc(85, 85, 75, 0, 2 * Math.PI);
+    ctx.strokeStyle = "#1e293b";
+    ctx.lineWidth = 10;
+    ctx.stroke();
+    
+    // Colored Countdown Ring Fill
+    const statusType = workoutMovements[currentMoveIndex].status;
+    ctx.beginPath();
+    ctx.arc(85, 85, 75, -Math.PI / 2, (-Math.PI / 2) + (2 * Math.PI * percentage));
+    ctx.strokeStyle = statusType === "WORK" ? "#f43f5e" : "#10b981";
+    ctx.lineWidth = 10;
+    ctx.lineCap = "round";
+    ctx.stroke();
+}
+
 function processTimerTick() {
     if (timerDuration > 0) {
         timerDuration--;
         updateTimerText(timerDuration);
+        const totalDurationForStep = workoutMovements[currentMoveIndex].time;
+        drawVisualRing(timerDuration / totalDurationForStep);
     } else {
         currentMoveIndex++;
         if (currentMoveIndex < workoutMovements.length) {
@@ -87,8 +112,9 @@ function processTimerTick() {
             statusBadgeElement.textContent = nextStep.status === "WORK" ? "Go Time" : "Recover";
             statusBadgeElement.className = nextStep.status === "WORK" ? "status-work" : "status-rest";
             timerDuration = nextStep.time;
-            currentIntervalText.textContent = `${Math.ceil((currentMoveIndex + 1) / 2)} / 4`;
+            currentIntervalText.textContent = `${currentMoveIndex + 1} / 8`;
             updateTimerText(timerDuration);
+            drawVisualRing(1);
         } else {
             clearInterval(activeInterval);
             activeInterval = null;
@@ -99,6 +125,8 @@ function processTimerTick() {
             startButton.classList.remove("running");
             currentMoveIndex = 0;
             timerDuration = workoutMovements[0].time;
+            currentIntervalText.textContent = "0 / 8";
+            drawVisualRing(1);
         }
     }
 }
@@ -114,7 +142,7 @@ startButton.addEventListener("click", () => {
         currentMoveText.textContent = primaryStep.name;
         statusBadgeElement.textContent = primaryStep.status === "WORK" ? "Go Time" : "Recover";
         statusBadgeElement.className = primaryStep.status === "WORK" ? "status-work" : "status-rest";
-        currentIntervalText.textContent = `${Math.ceil((currentMoveIndex + 1) / 2)} / 4`;
+        currentIntervalText.textContent = `${currentMoveIndex + 1} / 8`;
         
         activeInterval = setInterval(processTimerTick, 1000);
         startButton.textContent = "PAUSE WORKOUT";
@@ -159,3 +187,4 @@ weekdayTabsList.forEach(tabItem => {
 });
 
 window.addEventListener("DOMContentLoaded", buildInterface);
+
