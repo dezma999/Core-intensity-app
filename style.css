@@ -6,14 +6,13 @@
     --accent-rest: #10b981;
     --text-light: #f8fafc;
     --text-muted: #94a3b8;
-    --accent-gold: #fbbf24;
 }
 
 * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
     -webkit-tap-highlight-color: transparent;
 }
 
@@ -33,18 +32,11 @@ body {
     flex-direction: column;
     align-items: center;
     gap: 20px;
-    padding-bottom: 40px;
-}
-
-header {
-    text-align: center;
-    margin-top: 10px;
 }
 
 header h1 {
     font-size: 2rem;
     font-weight: 800;
-    letter-spacing: -0.5px;
 }
 
 header h1 span {
@@ -54,15 +46,11 @@ header h1 span {
 header p {
     color: var(--text-muted);
     font-size: 0.9rem;
-    margin-top: 4px;
 }
 
-/* Badges */
 .badge-container {
     display: flex;
     gap: 8px;
-    justify-content: center;
-    flex-wrap: wrap;
 }
 
 .badge {
@@ -70,43 +58,48 @@ header p {
     padding: 6px 12px;
     border-radius: 20px;
     font-size: 0.8rem;
-    font-weight: 600;
-    border: 1px solid rgba(255,255,255,0.05);
 }
 
-/* Exercise Window */
 .exercise-display {
     background: var(--card-bg);
     width: 100%;
     border-radius: 24px;
     padding: 24px;
     text-align: center;
-    box-shadow: 0 10px 25px -5px rgba(0,0,0,0.3);
-    position: relative;
-    overflow: hidden;
-    border: 1px solid rgba(255,255,255,0.05);
+}
+
+#exercise-icon-container {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 12px auto;
+}
+
+.exercise-icon {
+    width: 100%;
+    height: 100%;
 }
 
 #current-move {
-    font-size: 1.8rem;
+    font-size: 1.6rem;
     font-weight: 700;
-    margin-bottom: 8px;
+}
+
+#exercise-demo-tip {
+    font-size: 0.85rem;
+    color: var(--accent-neon);
+    margin: 6px 0 12px 0;
 }
 
 #status-badge {
-    display: inline-block;
     padding: 4px 12px;
     border-radius: 12px;
     font-size: 0.75rem;
     font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
 }
 
-.status-work { background: var(--accent-burn); color: white; }
-.status-rest { background: var(--accent-rest); color: white; }
+.status-work { background: var(--accent-burn); }
+.status-rest { background: var(--accent-rest); }
 
-/* Timer Wheel Area */
 .timer-container {
     position: relative;
     width: 170px;
@@ -118,19 +111,16 @@ header p {
 
 .timer-text-box {
     position: absolute;
-    text-align: center;
 }
 
 #time-left {
     font-size: 3.5rem;
     font-weight: 800;
-    line-height: 1;
 }
 
-/* Dashboard Grid Counters */
 .stats-grid {
     display: grid;
-    grid-template-columns: 1xl 1xl;
+    grid-template-columns: 1fr 1fr;
     gap: 12px;
     width: 100%;
 }
@@ -140,15 +130,11 @@ header p {
     padding: 16px;
     border-radius: 16px;
     text-align: center;
-    border: 1px solid rgba(255,255,255,0.05);
 }
 
 .stat-label {
     font-size: 0.75rem;
     color: var(--text-muted);
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    margin-bottom: 4px;
 }
 
 .stat-val {
@@ -156,46 +142,29 @@ header p {
     font-weight: 700;
 }
 
-/* Action Trigger Buttons */
 .controls-btn, .nutrition-trigger-btn {
     width: 100%;
-    padding: 18px;
+    padding: 16px;
     border-radius: 16px;
     font-size: 1rem;
     font-weight: 700;
     border: none;
-    cursor: pointer;
-    transition: background 0.2s;
 }
 
-.controls-btn {
-    background: var(--accent-neon);
-    color: var(--bg-dark);
-}
+.controls-btn { background: var(--accent-neon); color: var(--bg-dark); }
+.controls-btn.running { background: var(--accent-burn); color: white; }
+.nutrition-trigger-btn { background: var(--card-bg); color: white; margin-top: -8px;}
 
-.controls-btn.running {
-    background: var(--accent-burn);
-    color: white;
-}
-
-.nutrition-trigger-btn {
-    background: var(--card-bg);
-    color: var(--text-light);
-    border: 1px solid rgba(255,255,255,0.1);
-}
-
-/* Meal Plan Popup Drawer Modal */
+/* Modal Structure */
 .modal-overlay {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(15, 23, 42, 0.85);
-    backdrop-filter: blur(8px);
+    background: rgba(15, 23, 42, 0.9);
     display: flex;
     align-items: flex-end;
-    z-index: 1000;
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.3s ease;
@@ -209,57 +178,42 @@ header p {
 .modal-content {
     background: var(--card-bg);
     width: 100%;
-    border-radius: 32px 32px 0 0;
+    border-radius: 24px 24px 0 0;
     padding: 24px;
-    max-height: 85vh;
-    overflow-y: auto;
-    transform: translateY(100%);
-    transition: transform 0.3s ease;
-}
-
-.modal-overlay.active .modal-content {
-    transform: translateY(0);
 }
 
 .modal-header {
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
+    margin-bottom: 16px;
 }
 
 .close-modal {
     background: rgba(255,255,255,0.1);
     border: none;
     color: white;
-    width: 32px;
-    height: 32px;
+    width: 30px;
+    height: 30px;
     border-radius: 50%;
-    font-size: 1.2rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
 }
 
-/* Days Horizontal Navigator */
 .calendar-row {
     display: flex;
     justify-content: space-between;
     background: var(--bg-dark);
-    padding: 6px;
-    border-radius: 14px;
-    margin-bottom: 20px;
+    padding: 4px;
+    border-radius: 12px;
+    margin-bottom: 16px;
 }
 
 .day-tab {
     flex: 1;
     text-align: center;
-    padding: 10px 0;
-    font-size: 0.9rem;
+    padding: 8px 0;
+    font-size: 0.85rem;
     font-weight: 700;
-    border-radius: 10px;
+    border-radius: 8px;
     color: var(--text-muted);
-    cursor: pointer;
 }
 
 .day-tab.active {
@@ -267,53 +221,36 @@ header p {
     color: var(--bg-dark);
 }
 
-/* Card Cards with Ticks */
 .meal-card {
     background: var(--bg-dark);
-    padding: 16px;
-    border-radius: 16px;
-    margin-bottom: 12px;
+    padding: 14px;
+    border-radius: 12px;
+    margin-bottom: 10px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border: 1px solid rgba(255,255,255,0.02);
-    transition: all 0.2s;
 }
 
 .meal-card h4 {
-    font-size: 0.8rem;
-    text-transform: uppercase;
+    font-size: 0.75rem;
     color: var(--accent-neon);
-    margin-bottom: 2px;
-}
-
-.meal-card p {
-    font-size: 1rem;
-    font-weight: 500;
 }
 
 .check-circle {
-    width: 28px;
-    height: 28px;
+    width: 24px;
+    height: 24px;
     border-radius: 50%;
     border: 2px solid var(--text-muted);
-    display: flex;
-    align-items: center;
-    justify-content: center;
     color: transparent;
-    font-weight: 900;
-    font-size: 0.85rem;
-    cursor: pointer;
-    transition: all 0.2s;
+    text-align: center;
+    line-height: 20px;
+    font-weight: 700;
 }
 
-.meal-card.completed {
-    opacity: 0.6;
-    border-color: var(--accent-rest);
-}
-
+.meal-card.completed { opacity: 0.5; }
 .meal-card.completed .check-circle {
     background: var(--accent-rest);
     border-color: var(--accent-rest);
     color: white;
 }
+
