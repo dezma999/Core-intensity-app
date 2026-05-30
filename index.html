@@ -1,9 +1,11 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>CoreIntensity App</title>
     
+    <!-- PWA iOS Meta Tags -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="CoreIntensity">
@@ -13,6 +15,78 @@
 </head>
 <body>
 
-<script src="app.js"></script>
+    <div class="app-container">
+        <header>
+            <h1>Core<span>Intensity</span></h1>
+            <p>Core, Hips & Waist Workout</p>
+        </header>
+
+        <!-- Achievements Badges -->
+        <div class="badge-container">
+            <span class="badge" id="badge-day1">Day 1 🔥</span>
+            <span class="badge" id="badge-streak">3 Day Streak ⚡</span>
+            <span class="badge" id="badge-master">Core Master 👑</span>
+        </div>
+
+        <!-- Workout Display -->
+        <div class="exercise-display">
+            <div id="current-move">Get Ready!</div>
+            <span id="status-badge" class="status-rest">Prepare</span>
+        </div>
+
+        <!-- Progress Timer Circle -->
+        <div class="timer-container">
+            <canvas id="timer-ring" width="170" height="170"></canvas>
+            <div class="timer-text-box">
+                <div id="time-left">00</div>
+            </div>
+        </div>
+
+        <!-- Stats Counter Dashboard -->
+        <div class="stats-grid">
+            <div class="stat-box">
+                <div class="stat-label">Interval</div>
+                <div class="stat-val" id="current-interval">0 / 8</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-label">Total Time</div>
+                <div class="stat-val" id="total-duration">04:00</div>
+            </div>
+        </div>
+
+        <!-- Control Interactivity Button -->
+        <button class="controls-btn" id="start-btn">START WORKOUT</button>
+
+        <!-- Nutrition Tracker Modal Trigger Button -->
+        <button class="nutrition-trigger-btn" id="open-nutrition-btn">📅 Weekly Meal Plan</button>
+    </div>
+
+    <!-- Nutrition Overlay Modal Drawer -->
+    <div class="modal-overlay" id="nutrition-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Weekly Meal Plan</h2>
+                <button class="close-modal" id="close-nutrition-btn">&times;</button>
+            </div>
+            
+            <!-- Weekdays Navigation Row -->
+            <div class="calendar-row">
+                <div class="day-tab active" data-day="mon">M</div>
+                <div class="day-tab" data-day="tue">T</div>
+                <div class="day-tab" data-day="wed">W</div>
+                <div class="day-tab" data-day="thu">T</div>
+                <div class="day-tab" data-day="fri">F</div>
+                <div class="day-tab" data-day="sat">S</div>
+                <div class="day-tab" data-day="sun">S</div>
+            </div>
+
+            <!-- Dynamic Meals Container Deck -->
+            <div id="meals-container">
+                <!-- Meals injection node via app.js -->
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
 </body>
 </html>
